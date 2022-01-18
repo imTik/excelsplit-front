@@ -17,14 +17,13 @@ jobs:
         with: 
           node-version: "10.x"
       
-      - name: npm install
-        run: | 
+      - name: Npm install
+        run: |
           npm install
           npm run build
-
         env: 
           CI: true
-          
+
       - name: Deploy Aliyun
         uses: appleboy/scp-action@master
         with: 
