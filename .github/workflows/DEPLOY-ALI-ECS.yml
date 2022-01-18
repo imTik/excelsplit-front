@@ -19,6 +19,7 @@ jobs:
       
       - name: Npm install
         run: |
+          pwd
           npm install
           npm run build
         env: 
