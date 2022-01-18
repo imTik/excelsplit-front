@@ -32,5 +32,5 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
-          source: "./dist/*"
+          source: "dist/"
           target: "/usr/local/nginx/html"
