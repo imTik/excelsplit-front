@@ -2,7 +2,7 @@
 <template>
   <div class="home">
     <img src="../assets/logo.png" alt="" />
-    <h1>Vite Demo</h1>
+    <h1>excelsplit front</h1>
   </div>
 </template>
 

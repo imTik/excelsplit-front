@@ -3,13 +3,13 @@ import { createRouter, createWebHistory } from 'vue-router';
 const routes = [
   {
     path: '/',
-    redirect: '/vite-demo/',
+    redirect: '/excelsplit-front/',
   },
   {
-    path: '/vite-demo/',
+    path: '/excelsplit-front/',
     name: 'index',
     meta: {
-      title: 'vite-app-home',
+      title: 'excelsplit-front',
     },
     component: () => import('../views/index.vue'),
   },
