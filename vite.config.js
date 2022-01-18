@@ -4,7 +4,7 @@ import legacy from '@vitejs/plugin-legacy'; // 为传统浏览器提供支持
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: 'excelsplit-front',
+  // base: 'excelsplit-front',
   envDir: './env',
   server: {
     port: '3001',
