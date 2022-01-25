@@ -3,15 +3,15 @@ import { createRouter, createWebHistory } from 'vue-router';
 const routes = [
   {
     path: '/',
-    redirect: '/excelsplit-front/',
+    redirect: '/login/',
   },
   {
-    path: '/excelsplit-front/',
-    name: 'index',
+    path: '/login',
+    name: 'loginIndex',
     meta: {
-      title: 'excelsplit-front',
+      title: '登录页',
     },
-    component: () => import('../views/index.vue'),
+    component: () => import('../views/Login/index.vue'),
   },
 ];
 
