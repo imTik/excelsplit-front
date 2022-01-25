@@ -1,11 +1,20 @@
 <!--  -->
 <template>
   <div class="home login">
-    Login Index
+    <n-button>Login Index</n-button>
   </div>
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+import { NButton } from 'naive-ui';
+
+export default defineComponent({
+  components: {
+    NButton
+  }
+})
+
 </script>
 
 <style lang='less' scoped>
