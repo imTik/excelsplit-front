@@ -1,11 +1,13 @@
 <!--  -->
 <template>
   <div class="home login">
-    Login Index
+    <n-button>Login Index</n-button>
   </div>
 </template>
 
-<script>
+<script setup>
+import { NButton } from 'naive-ui';
+
 </script>
 
 <style lang='less' scoped>
