@@ -1,14 +1,14 @@
 <!--  -->
 <template>
   <div class="e-input">
-    <input :type="type" :value="modelValue" @input="updateModel($event.target.value)" />
+    <input :type="type === 'password' ? 'password' : 'text'" :value="modelValue" @input="updateModel($event.target.value)" />
     <span class="e-input_label" :class="[modelValue ? 'e-input_label-active' : '']">{{ label }}</span>
     <p class="error-tips" v-show="errorControl">{{ errorTips }}</p>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, ref, watch, computed } from 'vue';
+import { defineProps, defineEmits, watch } from 'vue';
 
 let props = defineProps({
   label: String,
@@ -43,9 +43,12 @@ function updateModel(newValue) {
 watch(
   () => props.modelValue,
   (n, o) => {
+    if (props.type === 'number') {
+      updateModel(String(n).replace(/\D/g, ''));
+    };
     if (String(n).length > Number(props.maxLength)) {
       updateModel(o);
-    }
+    };
   }
 );
 </script>

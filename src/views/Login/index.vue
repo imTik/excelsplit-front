@@ -8,19 +8,23 @@
 
       <div class="login-main_right">
         <h1 class="right-title">Log In</h1>
-        <e-input label="手机号码" v-model="loginForm.phone" maxLength="11" />
+        <e-input label="手机号码" v-model="loginForm.phone" type="number" maxLength="11" />
         <e-input label="密码" v-model="loginForm.password" type="password" />
 
         <div class="right-bottom">
           <n-button class="login-btn" color="#f38181" @click="login">登录</n-button>
+
+          <p class="right-bottom_register">还没有账号？<router-link to="/register">立即注册></router-link></p>
         </div>
       </div>
     </div>
+
+    <p class="record-info"><a href="https://beian.miit.gov.cn" target="_blank">粤ICP备2022003218号</a></p>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { reactive } from 'vue';
 import { NButton, NInput, NForm, NFormItem } from 'naive-ui';
 import EInput from '../../components/EInput.vue';
 
@@ -30,7 +34,7 @@ let loginForm = reactive({
 });
 
 function login() {
-  console.log('登录手机号码：', loginForm);
+  console.log('登录数据：', loginForm);
 }
 </script>
 
@@ -41,6 +45,21 @@ function login() {
   flex-wrap: wrap;
   min-width: 1200px;
   box-sizing: border-box;
+
+  .record-info {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    a {
+      transition: all .2s;
+      color: @secondary;
+    };
+    a:hover {
+      color: @text;
+    }
+  }
 
   .login-main {
     display: flex;
@@ -78,11 +97,23 @@ function login() {
       }
 
       .right-bottom {
-        margin-top: 80px;
+        margin-top: 60px;
 
         .login-btn {
           width: 100%;
           height: 45px;
+        }
+
+        .right-bottom_register {
+          margin-top: 10px;
+          font-size: @s;
+          text-align: right;
+
+          a {
+            text-decoration: underline;
+            color: @green;
+            cursor: pointer;
+          }
         }
       }
     }
