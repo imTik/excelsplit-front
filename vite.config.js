@@ -11,8 +11,8 @@ export default defineConfig({
     port: '3001',
     proxy: {
       '/api': {
-        target: 'http://192.168.35.171:8888',
-        changeOrigin: '',
+        target: 'https://excelsplit.com',
+        changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
