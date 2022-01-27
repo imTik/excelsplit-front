@@ -1,5 +1,5 @@
 import HTTP from './http';
 
-export function test(params) {
-  return HTTP.get('/getUserInfo');
+export function loginApi(params) {
+  return HTTP.post('/login', params);
 }

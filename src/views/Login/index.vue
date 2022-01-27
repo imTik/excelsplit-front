@@ -35,15 +35,18 @@ import { NButton, NCheckbox, NConfigProvider } from 'naive-ui';
 import EInput from '../../components/EInput.vue';
 import themeOverrides from '../../style/naiveui.config';
 
+import { loginApi } from '../../api/index';
+
 let loginForm = reactive({
   phone: '',
   password: '',
 });
 let rememberMe = ref(false);
 
-function login() {
-  console.log('登录数据：', loginForm);
+async function login() {
   console.log('记住我选项：', rememberMe.value);
+  let result = await loginApi(loginForm);
+  console.log('登录结果：',result);
 }
 </script>
 

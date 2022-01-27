@@ -3,7 +3,7 @@ let serviceConfgi = {
 };
 
 if (import.meta.env.PROD && import.meta.env.VITE_ENV === 'PROD') {
-  serviceConfgi.base = '';
+  serviceConfgi.base = 'https://excelsplit.com';
 }
 
 export default serviceConfgi;
