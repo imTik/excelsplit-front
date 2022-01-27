@@ -11,6 +11,12 @@
         <e-input label="手机号码" v-model="loginForm.phone" type="number" maxLength="11" />
         <e-input label="密码" v-model="loginForm.password" type="password" />
 
+        <div class="right-remember">
+          <n-config-provider :theme-overrides="themeOverrides">
+            <n-checkbox v-model:checked="rememberMe">记住我</n-checkbox>
+          </n-config-provider>
+        </div>
+
         <div class="right-bottom">
           <n-button class="login-btn" color="#f38181" @click="login">登录</n-button>
 
@@ -24,17 +30,20 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
-import { NButton, NInput, NForm, NFormItem } from 'naive-ui';
+import { ref, reactive } from 'vue';
+import { NButton, NCheckbox, NConfigProvider } from 'naive-ui';
 import EInput from '../../components/EInput.vue';
+import themeOverrides from '../../style/naiveui.config';
 
 let loginForm = reactive({
   phone: '',
   password: '',
 });
+let rememberMe = ref(false);
 
 function login() {
   console.log('登录数据：', loginForm);
+  console.log('记住我选项：', rememberMe.value);
 }
 </script>
 
@@ -53,9 +62,9 @@ function login() {
     right: 0;
     text-align: center;
     a {
-      transition: all .2s;
+      transition: all 0.2s;
       color: @secondary;
-    };
+    }
     a:hover {
       color: @text;
     }
@@ -89,11 +98,20 @@ function login() {
       box-sizing: border-box;
 
       .right-title {
-        margin-top: 40px;
+        margin-top: 80px;
         margin-bottom: 80px;
         text-align: center;
         font-size: 36px;
         color: @text;
+      }
+
+      .right-remember {
+        margin-top: 5px;
+        font-size: @s;
+        span {
+          display: inline-block;
+          margin-left: 4px;
+        }
       }
 
       .right-bottom {
