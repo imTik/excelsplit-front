@@ -1,23 +1,53 @@
 <!--  -->
 <template>
   <div class="e-input">
-    <input :type="type" v-model="inputVal" :placeholder="placeholder" />
-    <span class="e-input_label" :class="[inputVal ? 'e-input_label-active' : '']">{{ label }}</span>
-    <p class="error-tips"></p>
+    <input :type="type" :value="modelValue" @input="updateModel($event.target.value)" />
+    <span class="e-input_label" :class="[modelValue ? 'e-input_label-active' : '']">{{ label }}</span>
+    <p class="error-tips" v-show="errorControl">{{ errorTips }}</p>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref } from 'vue';
+import { defineProps, defineEmits, ref, watch, computed } from 'vue';
 
-defineProps({
+let props = defineProps({
   label: String,
   type: {
     type: String,
-    default: 'text'
+    default: 'text',
+  },
+  maxLength: {
+    type: [String, Number],
+    default: 20,
+  },
+  errorTips: {
+    type: String,
+    default: '',
+  },
+  errorControl: {
+    type: Boolean,
+    default: false,
+  },
+  modelValue: {
+    type: [String, Number],
+    default: '',
   },
 });
-let inputVal = ref('');
+
+const emit = defineEmits(['update:modelValue']);
+function updateModel(newValue) {
+  emit('update:modelValue', newValue);
+}
+
+// 输入框字数限制
+watch(
+  () => props.modelValue,
+  (n, o) => {
+    if (String(n).length > Number(props.maxLength)) {
+      updateModel(o);
+    }
+  }
+);
 </script>
 
 <style lang="less" scoped>
