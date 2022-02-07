@@ -13,7 +13,7 @@
 
         <div class="right-remember">
           <n-config-provider :theme-overrides="themeOverrides">
-            <n-checkbox v-model:checked="rememberMe">记住我</n-checkbox>
+            <n-checkbox v-model:checked="remember">记住我</n-checkbox>
           </n-config-provider>
         </div>
 
@@ -31,6 +31,7 @@
 
 <script setup>
 import { ref, reactive } from 'vue';
+import SESSION from '../../utils/Session';
 import { NButton, NCheckbox, NConfigProvider } from 'naive-ui';
 import EInput from '../../components/EInput.vue';
 import themeOverrides from '../../style/naiveui.config';
@@ -41,12 +42,26 @@ let loginForm = reactive({
   phone: '',
   password: '',
 });
-let rememberMe = ref(false);
+let remember = ref(false);
+initRemember();
+
+function initRemember() {
+  let sessionRemember = SESSION.get('EXCEL_REMEMBER', remember.value);
+  if (sessionRemember !== null) {
+    remember.value = sessionRemember;
+
+    if (sessionRemember) {
+      loginForm.phone = SESSION.get('EXCEL_PHONE');
+    }
+  }
+}
 
 async function login() {
-  console.log('记住我选项：', rememberMe.value);
+  SESSION.set('EXCEL_REMEMBER', remember.value);
+  remember.value ? SESSION.set('EXCEL_PHONE', loginForm.phone) : SESSION.del('EXCEL_PHONE');
+
   let result = await loginApi(loginForm);
-  console.log('登录结果：',result);
+  console.log('登录结果：', result);
 }
 </script>
 
