@@ -71,6 +71,11 @@ async function login() {
   remember.value ? SESSION.set('EXCEL_PHONE', loginForm.phone) : SESSION.del('EXCEL_PHONE');
 
   let result = await loginApi(loginForm);
+  if (result.code === '200') {
+    alert('登录成功，你好 ' + result.result.nick_name);
+  } else {
+    alert('登录失败，X_X ' + result.message);
+  }
   console.log('登录结果：', result);
 }
 </script>
