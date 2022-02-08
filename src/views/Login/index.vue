@@ -1,41 +1,41 @@
 <!--  -->
 <template>
-  <div class="home login">
-    <div class="login-main">
-      <div class="login-main_left">
-        <p>您好 陌生人。</p>
-      </div>
-
-      <div class="login-main_right">
-        <h1 class="right-title">Log In</h1>
-        <e-input label="手机号码" v-model="loginForm.phone" type="number" maxLength="11" />
-        <e-input label="密码" v-model="loginForm.password" type="password" />
-
-        <div class="right-remember">
-          <n-config-provider :theme-overrides="themeOverrides">
-            <n-checkbox v-model:checked="remember">记住我</n-checkbox>
-          </n-config-provider>
+  <n-message-provider>
+    <div class="home login">
+      <div class="login-main">
+        <div class="login-main_left">
+          <p>您好 陌生人。</p>
         </div>
 
-        <div class="right-bottom">
-          <n-button class="login-btn" color="#f38181" @click="login">登录</n-button>
+        <div class="login-main_right">
+          <h1 class="right-title">Log In</h1>
+          <e-input label="手机号码" v-model="loginForm.phone" type="number" maxLength="11" />
+          <e-input label="密码" v-model="loginForm.password" type="password" />
 
-          <p class="right-bottom_register">还没有账号？<router-link to="/register">立即注册></router-link></p>
+          <div class="right-remember">
+            <n-config-provider :theme-overrides="themeOverrides">
+              <n-checkbox v-model:checked="remember">记住我</n-checkbox>
+            </n-config-provider>
+          </div>
+
+          <div class="right-bottom">
+            <n-button class="login-btn" color="#f38181" @click="login">登录</n-button>
+            <p class="right-bottom_register">还没有账号？<router-link to="/register">立即注册></router-link></p>
+          </div>
         </div>
       </div>
+
+      <p class="record-info"><a href="https://beian.miit.gov.cn" target="_blank">粤ICP备2022003218号</a></p>
     </div>
-
-    <p class="record-info"><a href="https://beian.miit.gov.cn" target="_blank">粤ICP备2022003218号</a></p>
-  </div>
+  </n-message-provider>
 </template>
 
 <script setup>
 import { ref, reactive } from 'vue';
-import SESSION from '../../utils/Session';
-import { NButton, NCheckbox, NConfigProvider } from 'naive-ui';
+import { NButton, NCheckbox, NConfigProvider, NMessageProvider, useMessage } from 'naive-ui';
 import EInput from '../../components/EInput.vue';
 import themeOverrides from '../../style/naiveui.config';
-
+import SESSION from '../../utils/Session';
 import { loginApi } from '../../api/index';
 
 let loginForm = reactive({
@@ -44,6 +44,7 @@ let loginForm = reactive({
 });
 let remember = ref(false);
 initRemember();
+
 
 function initRemember() {
   let sessionRemember = SESSION.get('EXCEL_REMEMBER', remember.value);
@@ -57,6 +58,15 @@ function initRemember() {
 }
 
 async function login() {
+  const message = useMessage();
+  if (loginForm.phone === '') {
+    alert('请输入手机号码');
+    return;
+  } else if (loginForm.password === '') {
+    alert('请输入密码');
+    return;
+  }
+
   SESSION.set('EXCEL_REMEMBER', remember.value);
   remember.value ? SESSION.set('EXCEL_PHONE', loginForm.phone) : SESSION.del('EXCEL_PHONE');
 
