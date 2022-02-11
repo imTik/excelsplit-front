@@ -1,52 +1,54 @@
 <!--  -->
 <template>
-  <n-message-provider>
-    <div class="home login">
-      <div class="login-main">
-        <div class="login-main_left">
-          <p>您好 陌生人。</p>
-        </div>
-
-        <div class="login-main_right">
-          <h1 class="right-title">Log In</h1>
-          <e-input label="手机号码" v-model="loginForm.phone" type="number" maxLength="11" />
-          <e-input label="密码" v-model="loginForm.password" type="password" />
-
-          <div class="right-remember">
-            <n-config-provider :theme-overrides="themeOverrides">
-              <n-checkbox v-model:checked="remember">记住我</n-checkbox>
-            </n-config-provider>
-          </div>
-
-          <div class="right-bottom">
-            <n-button class="login-btn" color="#f38181" @click="login">登录</n-button>
-            <p class="right-bottom_register">还没有账号？<router-link to="/register">立即注册></router-link></p>
-          </div>
-        </div>
+  <div class="home login">
+    <div class="login-main">
+      <div class="login-main_left">
+        <p>您好 陌生人。</p>
       </div>
 
-      <p class="record-info"><a href="https://beian.miit.gov.cn" target="_blank">粤ICP备2022003218号</a></p>
+      <div class="login-main_right">
+        <h1 class="right-title">Log In</h1>
+        <EInput label="手机号码" v-model="loginForm.phone" type="number" maxLength="11" />
+        <EInput label="密码" v-model="loginForm.password" type="password" />
+
+        <div class="right-remember">
+          <NConfigProvider :theme-overrides="themeOverrides">
+            <NCheckbox v-model:checked="remember">记住我</NCheckbox>
+          </NConfigProvider>
+        </div>
+
+        <div class="right-bottom">
+          <NButton class="login-btn" color="#f38181" @click="login">登录</NButton>
+          <p class="right-bottom_register">还没有账号？<router-link to="/register">立即注册></router-link></p>
+        </div>
+      </div>
     </div>
-  </n-message-provider>
+
+    <p class="record-info"><a href="https://beian.miit.gov.cn" target="_blank">粤ICP备2022003218号</a></p>
+  </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive } from 'vue';
-import { NButton, NCheckbox, NConfigProvider, NMessageProvider, useMessage } from 'naive-ui';
-import EInput from '../../components/EInput.vue';
+import { NButton, NCheckbox, NConfigProvider } from 'naive-ui';
+import EInput from '../../components/EInput/index.vue';
 import themeOverrides from '../../style/naiveui.config';
 import SESSION from '../../utils/Session';
 import { loginApi } from '../../api/index';
 
-let loginForm = reactive({
+interface LoginData {
+  phone: string;
+  password: string;
+}
+let loginForm: LoginData = reactive({
   phone: '',
   password: '',
 });
 let remember = ref(false);
+
 initRemember();
 
-
-function initRemember() {
+function initRemember(): void {
   let sessionRemember = SESSION.get('EXCEL_REMEMBER', remember.value);
   if (sessionRemember !== null) {
     remember.value = sessionRemember;
@@ -57,8 +59,7 @@ function initRemember() {
   }
 }
 
-async function login() {
-  const message = useMessage();
+async function login(): void {
   if (loginForm.phone === '') {
     alert('请输入手机号码');
     return;
@@ -121,8 +122,8 @@ async function login() {
       flex-shrink: 0;
       box-sizing: border-box;
       color: @white;
-      background: #f38181;
-      background: linear-gradient(0, #ffc0b7, #f38181);
+      // background: #f38181;
+      // background: linear-gradient(0, #ffc0b7, #f38181);
     }
 
     .login-main_right {

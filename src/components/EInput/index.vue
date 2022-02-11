@@ -1,14 +1,14 @@
 <!--  -->
 <template>
   <div class="e-input">
-    <input :type="type === 'password' ? 'password' : 'text'" :value="modelValue" @input="updateModel($event.target.value)" />
+    <input :type="type === 'password' ? 'password' : 'text'" :value="modelValue" @input="updateValue($event.target.value)" />
     <span class="e-input_label" :class="[modelValue ? 'e-input_label-active' : '']">{{ label }}</span>
     <p class="error-tips" v-show="errorControl">{{ errorTips }}</p>
   </div>
 </template>
 
-<script setup lang="ts">
-import { defineProps, defineEmits, watch } from 'vue';
+<script setup>
+import { defineProps, defineEmits, watch, computed } from 'vue';
 
 let props = defineProps({
   label: String,
@@ -35,26 +35,27 @@ let props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue']);
-function updateModel(newValue) {
+
+function updateValue(newValue) {
   emit('update:modelValue', newValue);
 }
 
+// 监听字数
+watch(() => props.modelValue, limit);
+
 // 输入框字数限制
-watch(
-  () => props.modelValue,
-  (n, o) => {
-    if (props.type === 'number') {
-      updateModel(String(n).replace(/\D/g, ''));
-    };
-    if (String(n).length > Number(props.maxLength)) {
-      updateModel(o);
-    };
+function limit(n, o) {
+  if (props.type.toLowerCase() === 'number') {
+    updateValue(String(n).replace(/\D/g, ''));
   }
-);
+  if (String(n).length > Number(props.maxLength)) {
+    updateValue(o);
+  }
+}
 </script>
 
 <style lang="less" scoped>
-@import '../style/index.less';
+@import '../../style/index.less';
 .e-input {
   position: relative;
 
