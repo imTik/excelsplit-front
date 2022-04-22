@@ -1,24 +1,21 @@
-function inputComponent() {
+function InputComponent() {
+  BasicComponent.apply(this);
   this.type = 'input';
-  this.disabled = false;
   this.text = '输入框';
-  this.size = 'middle';
-  this.value = '';
 };
+Extend(InputComponent, BasicComponent);
 
-function buttonComponet() {
+function ButtonComponet() {
+  BasicComponent.apply(this);
   this.type = 'button';
-  this.disabled = false;
   this.text = '按钮';
-  this.size = 'middle';
-  this.value = '';
 };
+Extend(ButtonComponet, BasicComponent);
 
-function checkboxComponent() {
+function CheckboxComponent() {
+  BasicComponent.apply(this);
   this.type = 'checkbox';
-  this.disabled = false;
   this.text = '多选';
-  this.size = 'middle';
   this.value = [];
   this.items = [
     {
@@ -31,41 +28,66 @@ function checkboxComponent() {
     }
   ]
 }
+Extend(CheckboxComponent, BasicComponent);
 
-function radioComponent() {
+function RadioComponent() {
+  BasicComponent.apply(this);
   this.type = 'radio';
-  this.disabled = false;
   this.text = '单选';
-  this.size = 'middle';
-  this.value = '';
 }
+Extend(RadioComponent, BasicComponent);
 
 function selectComponent() {
+  BasicComponent.apply(this);
   this.type = 'select';
-  this.disabled = false;
   this.text = '下拉选择';
-  this.size = 'middle';
-  this.value = '';
+}
+Extend(selectComponent, BasicComponent);
+console.log(selectComponent.prototype);
+
+selectComponent.prototype.getType = function () {
+  console.log('hahaha');
 }
 
 export function componentFactory(type) {
   switch (type) {
     case 'input':
-      return new inputComponent();
-    
+      return new InputComponent();
+
     case 'button':
-      return new buttonComponet();
-    
+      return new ButtonComponet();
+
     case 'checkbox':
-      return new checkboxComponent();
-    
+      return new CheckboxComponent();
+
     case 'radio':
-      return new radioComponent();
-    
+      return new RadioComponent();
+
     case 'select':
       return new selectComponent();
-    
+
     default:
-      return new inputComponent();
+      return new InputComponent();
   };
+};
+
+function BasicComponent() {
+  this.type = '';
+  this.text = '';
+  this.value = '';
+  this.disabled = false;
+  this.size = 'middle';
+};
+
+BasicComponent.prototype.getType = function () {
+  console.log(this.type);
+  return this.type;
+}
+
+// child-子类 parent-父类
+function Extend(child, parent) {
+  let F = function () { };
+  F.prototype = parent.prototype;
+  child.prototype = new F();
+  child.prototype.constructor = child;
 };

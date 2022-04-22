@@ -98,6 +98,9 @@ function drop(e) {
   if (type) {
     addComponent(type);
     type = null;
+    console.log(pageData.value);
+    let len = pageData.value.length;
+    pageData.value[len-1].getType();
   }
 
   if (moveIndex && dropIndex) {
