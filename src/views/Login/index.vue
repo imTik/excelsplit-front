@@ -33,30 +33,23 @@ import { ref, reactive } from 'vue';
 import { NButton, NCheckbox, NConfigProvider } from 'naive-ui';
 import EInput from '../../components/EInput/index.vue';
 import themeOverrides from '../../style/naiveui.config';
+
 import SESSION from '../../utils/Session';
 import { loginApi } from '../../api/index';
+import { getRemember } from './remember';
 
 interface LoginData {
-  phone: string;
+  phone: number;
   password: string;
 }
 let loginForm: LoginData = reactive({
   phone: '',
   password: '',
 });
-let remember = ref(false);
+let remember = getRemember();
 
-initRemember();
-
-function initRemember(): void {
-  let sessionRemember = SESSION.get('EXCEL_REMEMBER', remember.value);
-  if (sessionRemember !== null) {
-    remember.value = sessionRemember;
-
-    if (sessionRemember) {
-      loginForm.phone = SESSION.get('EXCEL_PHONE');
-    }
-  }
+if (remember.value) {
+  loginForm.phone = SESSION.get('EXCEL_PHONE');
 }
 
 async function login(): void {
@@ -72,12 +65,13 @@ async function login(): void {
   remember.value ? SESSION.set('EXCEL_PHONE', loginForm.phone) : SESSION.del('EXCEL_PHONE');
 
   let result = await loginApi(loginForm);
-  if (result.code === '200') {
-    alert('登录成功，你好 ' + result.result.nick_name);
-  } else {
-    alert('登录失败，X_X ' + result.message);
+  switch (result.code) {
+    case '200':
+      alert('登录成功，你好 ' + result.result.nick_name);
+      break;
+    default:
+      alert('登录失败，X_X ' + result.message);
   }
-  console.log('登录结果：', result);
 }
 </script>
 

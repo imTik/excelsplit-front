@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router';
 
 const routes = [
   {
@@ -13,10 +13,18 @@ const routes = [
     },
     component: () => import('../views/Login/index.vue'),
   },
+  {
+    path: '/register',
+    name: 'registerIndex',
+    meta: {
+      title: '注册页'
+    },
+    component: () => import('../views/Register/index.vue')
+  }
 ];
 
 const router = createRouter({
-  history: createWebHistory(), // createWebHashHistory()
+  history: createWebHashHistory(), // createWebHashHistory()  createWebHistory()
   routes,
 });
 
